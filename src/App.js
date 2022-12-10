@@ -6,7 +6,7 @@ import Nft from './pages/Nft';
 const App = () => {
     return (
         <div>
-            <Upload />
+            <Nft />
         </div>
     )
 }

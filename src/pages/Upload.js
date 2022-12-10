@@ -10,24 +10,36 @@ function Upload() {
   // 파일 저장
   const saveFileImage = (e) => {
     setFileImage(URL.createObjectURL(e.target.files[0]));
+    console.log(fileImage)
     console.log(URL.createObjectURL(e.target.files[0]));
   };
 
-  /*const registFileImage = () => {
-    axios.post('http://localhost:3001/game/getData', {
-            fileImage : fileImage,
-            content : content,
-            title : title,
-      }).then((result)=>{
-        //setInfo(result.data);
-        console.log(result.data.tier);
-        if(result.data.length!=0){
-          alert('');
-          //navigate("");
-        }
-      })
+  const registFileImage = async() => {
+    const formData = new FormData()
+    formData.append("file", fileImage);
+    console.log(fileImage)
+    const request = {
+      fileImage : fileImage
+    };
+    
+    formData.append("request", new Blob([JSON.stringify(request)], { type: "application/json" }));
 
-  }*/
+    File.post("https://xxxp5s582m.execute-api.ap-northeast-2.amazonaws.com/upload/image", formData) 
+  .then((res) => {
+    if (res) alert("캐릭터 생성이 완료되었습니다.");
+		else alert("캐릭터 생성에 실패했습니다.");
+})
+
+   /*await axios({
+      method: "POST",
+      url: `https://xxxp5s582m.execute-api.ap-northeast-2.amazonaws.com/upload/image`,
+      mode: "cors",
+      headers: {
+        "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
+      },
+      data: formData, // data 전송시에 반드시 생성되어 있는 formData 객체만 전송 하여야 한다.
+    })*/
+  }
 
   return (
     <>
@@ -74,7 +86,7 @@ function Upload() {
                       height: "40px",
                       cursor: "pointer",
                     }}
-                    /*onClick={() => registFileImage()}*/
+                    onClick={() => registFileImage()}
                   >
                     등록
                   </button>
